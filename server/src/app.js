@@ -2,8 +2,12 @@ const http = require("http");
 const express = require("express");
 const cors = require("cors");
 
+const Game = require("./game");
+const Player = require("./player");
+
 const PORT = "8000";
 
+const game = new Game();
 const app = express();
 const server = http.createServer(app);
 const io = require("socket.io")(server, {
@@ -23,11 +27,20 @@ server.on("listening", () => {
 server.listen(PORT);
 
 io.sockets.on("connection", (socket) => {
-  console.log("Client connected: " + socket.id);
+  const client = new Player(socket.id, false);
 
-  // socket.broadcast.emit will send the message to all the other clients except the newly created connection
+  game.addPlayer(client);
+
+  socket.on("next-turn", () => {
+    game.nextTurn();
+  });
+
   socket.on("draw", (data) => {
     socket.broadcast.emit("draw", data);
+  });
+
+  socket.on("chat", (data) => {
+    io.sockets.emit("chat", data);
   });
 
   socket.on("disconnect", () => console.log("Client has disconnected"));

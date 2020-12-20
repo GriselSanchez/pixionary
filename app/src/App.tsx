@@ -1,7 +1,13 @@
-import React, { useEffect } from "react";
-import { Canvas } from "./components";
+import React from "react";
+import { Canvas, Chat } from "./components";
+
 function App() {
-  return <Canvas />;
+  return (
+    <div>
+      <Canvas />
+      <Chat />
+    </div>
+  );
 }
 
 export default App;

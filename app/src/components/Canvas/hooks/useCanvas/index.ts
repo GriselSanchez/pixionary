@@ -31,12 +31,9 @@ export const useCanvas = (style: Style, drawingMode: boolean) => {
       return newPos;
     };
 
-    console.log("1" + drawingMode);
-
     canvas.addEventListener("mousedown", (event) => {
-      console.log("2" + drawingMode);
-
       if (!drawingMode) return;
+
       lastPos = getNewPosition(canvas, event);
     });
 

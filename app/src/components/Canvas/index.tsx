@@ -14,7 +14,7 @@ const StyledCanvas = styled.canvas`
 `;
 
 const Canvas: React.FC<Props> = ({ width = 500, height = 500 }) => {
-  const [drawingMode, setDrawingMode] = useState(false);
+  const [drawingMode, setDrawingMode] = useState(true);
   const { style, onChange } = useStyles();
   const canvasRef = useCanvas(style, drawingMode);
 
