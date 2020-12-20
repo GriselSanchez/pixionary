@@ -26,8 +26,9 @@ io.sockets.on("connection", (socket) => {
   console.log("Client connected: " + socket.id);
 
   // socket.broadcast.emit will send the message to all the other clients except the newly created connection
-  socket.on("mouse", (data) => {
-    socket.broadcast.emit("mouse", data);
+  socket.on("draw", (data) => {
+    socket.broadcast.emit("draw", data);
   });
+
   socket.on("disconnect", () => console.log("Client has disconnected"));
 });

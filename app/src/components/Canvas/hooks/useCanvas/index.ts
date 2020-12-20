@@ -1,40 +1,55 @@
-import { Point, Style } from "../../types";
-import { CanvasUtils } from "../../utils";
+import { useEffect, useRef } from "react";
 import io from "socket.io-client";
-import { useEffect } from "react";
+
+import { Point, Style, SocketResponse } from "../../types";
+import { CanvasUtils } from "../../utils";
+
 const socket = io("http://192.168.1.43:8000");
 
-const { styleContext, getCoordinates, drawPath } = CanvasUtils;
+const { styleContext, getNewPosition, drawPath } = CanvasUtils;
 
-export const useCanvas = (style: Style) => {
-  const path: Point[] = [];
+export const useCanvas = (style: Style, drawingMode: boolean) => {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  const draw = (event: React.MouseEvent<HTMLCanvasElement, MouseEvent>) => {
-    const { currentTarget: canvas, buttons } = event;
+  useEffect(() => {
+    let lastPos: Point = { x: 0, y: 0 };
 
-    if (buttons !== 1) return;
+    const canvas = canvasRef.current;
+    if (!canvas) return;
 
     const context = canvas.getContext("2d");
     if (!context) return;
 
-    const styledContext = styleContext(context, style);
-    addNewPosition(event);
+    const draw = (event: MouseEvent) => {
+      const styledContext = styleContext(context, style);
+      const newPos = getNewPosition(canvas, event);
+      const path = { start: lastPos, end: newPos };
 
-    drawPath(styledContext, path);
+      drawPath(styledContext, path);
+      socket.emit("draw", { path, style });
 
-    socket.emit("mouse", { path });
-  };
+      return newPos;
+    };
 
-  const addNewPosition = (
-    event: React.MouseEvent<HTMLCanvasElement, MouseEvent>
-  ) => {
-    const newPos = getCoordinates(event.currentTarget, event);
-    path.push(newPos);
-  };
+    console.log("1" + drawingMode);
 
-  useEffect(() => {
-    socket.on("mouse", (data: any) => console.log(data));
-  }, [path]);
+    canvas.addEventListener("mousedown", (event) => {
+      console.log("2" + drawingMode);
 
-  return { draw, addNewPosition };
+      if (!drawingMode) return;
+      lastPos = getNewPosition(canvas, event);
+    });
+
+    canvas.addEventListener("mousemove", (event) => {
+      if (event.buttons !== 1 || !drawingMode) return;
+      lastPos = draw(event);
+    });
+
+    socket.on("draw", ({ path, style }: SocketResponse) => {
+      const styledContext = styleContext(context, style);
+      drawPath(styledContext, path);
+    });
+  }, [style, drawingMode]);
+
+  return canvasRef;
 };

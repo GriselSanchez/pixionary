@@ -1,10 +1,7 @@
-import { Point, Style } from "../types";
+import { Point, Style, Path } from "../types";
 
 export const CanvasUtils = {
-  getCoordinates: (
-    canvas: HTMLCanvasElement,
-    event: React.MouseEvent<HTMLCanvasElement, MouseEvent>
-  ): Point => {
+  getNewPosition: (canvas: HTMLCanvasElement, event: MouseEvent): Point => {
     const { top, left } = canvas.getBoundingClientRect();
     const x = event.pageX - left;
     const y = event.pageY - top;
@@ -21,18 +18,12 @@ export const CanvasUtils = {
     return context;
   },
 
-  drawPath: (context: CanvasRenderingContext2D, path: Point[]) => {
-    // TODO: fix
-    if (!path[path.length - 2]) return;
-
-    const lastPos = path[path.length - 2];
-    const newPos = path[path.length - 1];
-
+  drawPath: (context: CanvasRenderingContext2D, { start, end }: Path) => {
     context.beginPath();
-    context.moveTo(lastPos.x, lastPos.y);
-    context.lineTo(newPos.x, newPos.y);
+    context.moveTo(start.x, start.y);
+    context.lineTo(end.x, end.y);
     context.stroke();
 
-    if (lastPos === newPos) context.fillRect(10, 10, 1, 1);
+    if (start === end) context.fillRect(10, 10, 1, 1);
   },
 };

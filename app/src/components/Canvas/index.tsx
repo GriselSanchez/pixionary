@@ -1,3 +1,4 @@
+import { useState } from "react";
 import styled from "styled-components";
 
 import { useCanvas, useStyles } from "./hooks";
@@ -13,11 +14,18 @@ const StyledCanvas = styled.canvas`
 `;
 
 const Canvas: React.FC<Props> = ({ width = 500, height = 500 }) => {
+  const [drawingMode, setDrawingMode] = useState(false);
   const { style, onChange } = useStyles();
-  const { draw, addNewPosition } = useCanvas(style);
+  const canvasRef = useCanvas(style, drawingMode);
 
   return (
     <div>
+      <input
+        type="radio"
+        onClick={() => setDrawingMode((prev) => !prev)}
+        checked={drawingMode}
+        readOnly
+      />
       <input
         type="color"
         onChange={onChange(TypeEnum.Color)}
@@ -28,12 +36,7 @@ const Canvas: React.FC<Props> = ({ width = 500, height = 500 }) => {
         onChange={onChange(TypeEnum.Width)}
         value={style.width}
       />
-      <StyledCanvas
-        onMouseDown={addNewPosition}
-        onMouseMove={draw}
-        width={width}
-        height={height}
-      />
+      <StyledCanvas ref={canvasRef} width={width} height={height} />
     </div>
   );
 };
