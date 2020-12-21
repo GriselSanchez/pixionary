@@ -27,17 +27,25 @@ const Panel = () => {
   }, []);
 
   return (
-    <div>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        placeContent: "flex-end",
+        margin: "50px 20px",
+      }}
+    >
       {isTurn && <p>{`Word to draw: ${currentWord}`}</p>}
       {isTurn ? (
         <p>Your turn</p>
       ) : (
         <p>{currentPlayer && `Turn of ${currentPlayer}`}</p>
       )}
+
+      <Chat disabled={isTurn} />
       <button onClick={setNextTurn}>
         {currentPlayer ? "Next turn" : "Start"}
       </button>
-      <Chat disabled={isTurn} />
     </div>
   );
 };

@@ -41,8 +41,16 @@ function App() {
               )}
             ></Route>
             <Route path="/game">
-              <Panel />
-              <Canvas />
+              <div
+                style={{
+                  display: "flex",
+                  placeContent: "center",
+                  marginTop: "100px",
+                }}
+              >
+                <Canvas />
+                <Panel />
+              </div>
             </Route>
           </Switch>
         </Router>

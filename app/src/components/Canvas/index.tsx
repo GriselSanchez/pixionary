@@ -9,7 +9,7 @@ interface Props {
 }
 
 const StyledCanvas = styled.canvas`
-  border: 2px solid red;
+  border: 2px solid black;
 `;
 
 const Canvas: React.FC<Props> = ({ width = 500, height = 500 }) => {
@@ -17,11 +17,17 @@ const Canvas: React.FC<Props> = ({ width = 500, height = 500 }) => {
   const { canvasRef, isDrawingMode } = useCanvas(style);
 
   return (
-    <div>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column-reverse",
+      }}
+    >
       <input
         type="color"
         onChange={onChange(TypeEnum.Color)}
         value={style.color}
+        style={{ width: "100%" }}
       />
       <input
         type="range"
