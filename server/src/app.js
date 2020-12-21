@@ -1,6 +1,7 @@
 const http = require("http");
 const express = require("express");
 const cors = require("cors");
+var fs = require("fs");
 
 const Game = require("./game");
 const Player = require("./player");
@@ -19,6 +20,25 @@ const io = require("socket.io")(server, {
 
 app.set("port", PORT);
 app.use(cors());
+
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min)) + min;
+}
+
+app.use("/word", (req, res) => {
+  try {
+    const data = fs.readFileSync("src/words.json");
+    const words = JSON.parse(data);
+
+    const category = req.query.category || "medium";
+    const wordsFromCategory = words[category];
+    const randomWordIndex = getRandomInt(0, wordsFromCategory.length - 1);
+
+    res.send({ word: wordsFromCategory[randomWordIndex] });
+  } catch (e) {
+    console.log("Error:", e.stack);
+  }
+});
 
 server.on("listening", () => {
   console.log(`Listening on port ${PORT}`);
@@ -43,15 +63,15 @@ io.sockets.on("connection", (socket) => {
       playerDrawing,
     });
 
-    console.log(`Current player drawing ${playerDrawing.name}`);
+    console.log(`Current player drawing ${playerDrawing.id}`);
   });
 
   socket.on("draw", (data) => {
     socket.broadcast.emit("draw", data);
   });
 
-  socket.on("chat", (data) => {
-    io.sockets.emit("chat", { text: data.text, name: data.name });
+  socket.on("chat", ({ text, name }) => {
+    io.sockets.emit("chat", { text, name });
   });
 
   socket.on("disconnect", () => {

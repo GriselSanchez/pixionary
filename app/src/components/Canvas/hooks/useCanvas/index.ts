@@ -47,13 +47,12 @@ export const useCanvas = (style: Style) => {
       const styledContext = styleContext(context, style);
       drawPath(styledContext, path);
     });
-  }, [style, socket, user]);
 
-  useEffect(() => {
     socket.on("next-turn", ({ playerDrawing }: NextTurnResponse) => {
       setIsDrawingMode(playerDrawing.id === user.id);
+      context.clearRect(0, 0, canvas.width, canvas.height);
     });
-  }, []);
+  }, [style, socket, user]);
 
   return { canvasRef, isDrawingMode };
 };
