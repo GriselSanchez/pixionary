@@ -15,7 +15,7 @@ const StyledCanvas = styled.canvas`
 
 const Canvas: React.FC<Props> = ({ width = 500, height = 500 }) => {
   const { style, onChange } = useStyles();
-  const canvasRef = useCanvas(style);
+  const { canvasRef, isDrawingMode } = useCanvas(style);
 
   return (
     <div>
@@ -29,7 +29,12 @@ const Canvas: React.FC<Props> = ({ width = 500, height = 500 }) => {
         onChange={onChange(TypeEnum.Width)}
         value={style.width}
       />
-      <StyledCanvas ref={canvasRef} width={width} height={height} />
+      <StyledCanvas
+        ref={canvasRef}
+        width={width}
+        height={height}
+        style={{ pointerEvents: isDrawingMode ? "auto" : "none" }}
+      />
     </div>
   );
 };

@@ -12,7 +12,7 @@ export const useCanvas = (style: Style) => {
   const socket = useContext(SocketContext);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  const [, setIsDrawingMode] = useState(false);
+  const [isDrawingMode, setIsDrawingMode] = useState(false);
 
   useEffect(() => {
     let lastPos: Point = { x: 0, y: 0 };
@@ -55,5 +55,5 @@ export const useCanvas = (style: Style) => {
     });
   }, []);
 
-  return canvasRef;
+  return { canvasRef, isDrawingMode };
 };

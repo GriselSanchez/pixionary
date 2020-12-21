@@ -35,7 +35,7 @@ function App() {
                       history.push("/game");
                     }}
                   >
-                    Jugar
+                    Play
                   </button>
                 </div>
               )}
