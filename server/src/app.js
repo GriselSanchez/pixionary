@@ -27,12 +27,23 @@ server.on("listening", () => {
 server.listen(PORT);
 
 io.sockets.on("connection", (socket) => {
-  const client = new Player(socket.id, false);
+  console.log(`Player ${socket.id} connected`);
 
-  game.addPlayer(client);
+  const player = new Player(socket.id);
+  game.addPlayer(player);
+
+  socket.on("join", (name) => {
+    player.setName(name);
+  });
 
   socket.on("next-turn", () => {
-    game.nextTurn();
+    const playerDrawing = game.nextTurn();
+
+    io.sockets.emit("next-turn", {
+      playerDrawing,
+    });
+
+    console.log(`Current player drawing ${playerDrawing.name}`);
   });
 
   socket.on("draw", (data) => {
@@ -40,8 +51,12 @@ io.sockets.on("connection", (socket) => {
   });
 
   socket.on("chat", (data) => {
-    io.sockets.emit("chat", data);
+    io.sockets.emit("chat", { text: data.text, name: data.name });
   });
 
-  socket.on("disconnect", () => console.log("Client has disconnected"));
+  socket.on("disconnect", () => {
+    game.removePlayer(socket.id);
+
+    console.log(`Player ${socket.id} disconnected`);
+  });
 });

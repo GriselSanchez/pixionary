@@ -1,13 +1,17 @@
 module.exports = class Player {
   id;
-  isTurn;
+  name;
+  isDrawing;
 
-  constructor(_id, _isTurn) {
+  constructor(_id) {
     this.id = _id;
-    this.isTurn = _isTurn;
   }
 
-  setIsTurn(_isTurn) {
-    this.isTurn = _isTurn;
+  setIsDrawing(_isDrawing) {
+    this.isDrawing = _isDrawing;
+  }
+
+  setName(_name) {
+    this.name = _name;
   }
 };

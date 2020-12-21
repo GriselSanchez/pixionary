@@ -1,18 +1,20 @@
-import React, { useEffect, useState } from "react";
-import io from "socket.io-client";
+import React, { useEffect, useState, useContext } from "react";
+import { SocketContext, UserContext } from "../../contexts";
 
-const socket = io("http://192.168.1.43:8000");
+import { ChatResponse, NextTurnResponse } from "../../types";
 
 const Chat = () => {
-  const [text, setText] = useState<string[]>([]);
-  const [currentInput, setCurrentInput] = useState("");
+  const socket = useContext(SocketContext);
+  const user = useContext(UserContext);
 
-  const onInputChange = ({
-    key,
-    currentTarget,
-  }: React.KeyboardEvent<HTMLInputElement>) => {
+  const [chats, setChats] = useState<ChatResponse[]>([]);
+  const [currentInput, setCurrentInput] = useState("");
+  const [isTurn, setIsTurn] = useState(false);
+
+  const onInputChange = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    const { key, currentTarget } = event;
     if (key === "Enter") {
-      socket.emit("chat", { text: currentTarget.value });
+      socket.emit("chat", { text: currentTarget.value, name: user.name });
       setCurrentInput("");
     }
   };
@@ -22,15 +24,27 @@ const Chat = () => {
   };
 
   useEffect(() => {
-    socket.on("chat", (data: { text: string }) =>
-      setText((prev) => [...prev, data.text])
-    );
+    socket.on("chat", (chat: ChatResponse) => {
+      setChats((prev) => [...prev, chat]);
+    });
+
+    socket.on("next-turn", ({ playerDrawing }: NextTurnResponse) => {
+      setIsTurn(playerDrawing.id === user.id);
+    });
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <div>
-      {text.map((t) => (
-        <p>{t}</p>
+      {isTurn && <p>Tu turno</p>}
+      {chats.map((chat, index) => (
+        <p
+          key={index}
+          style={{
+            color: chat.name === user.id ? "red" : "black",
+          }}
+        >{`${chat.name}: ${chat.text}`}</p>
       ))}
       <input
         placeholder="Chat"

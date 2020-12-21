@@ -1,15 +1,18 @@
-import { useEffect, useRef } from "react";
-import io from "socket.io-client";
+import { useContext, useEffect, useRef, useState } from "react";
+import { SocketContext, UserContext } from "../../../../contexts";
+import { NextTurnResponse } from "../../../../types";
 
 import { Point, Style, SocketResponse } from "../../types";
 import { CanvasUtils } from "../../utils";
 
-const socket = io("http://192.168.1.43:8000");
-
 const { styleContext, getNewPosition, drawPath } = CanvasUtils;
 
-export const useCanvas = (style: Style, drawingMode: boolean) => {
+export const useCanvas = (style: Style) => {
+  const user = useContext(UserContext);
+  const socket = useContext(SocketContext);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  const [, setIsDrawingMode] = useState(false);
 
   useEffect(() => {
     let lastPos: Point = { x: 0, y: 0 };
@@ -32,13 +35,11 @@ export const useCanvas = (style: Style, drawingMode: boolean) => {
     };
 
     canvas.addEventListener("mousedown", (event) => {
-      if (!drawingMode) return;
-
       lastPos = getNewPosition(canvas, event);
     });
 
     canvas.addEventListener("mousemove", (event) => {
-      if (event.buttons !== 1 || !drawingMode) return;
+      if (event.buttons !== 1) return;
       lastPos = draw(event);
     });
 
@@ -46,7 +47,13 @@ export const useCanvas = (style: Style, drawingMode: boolean) => {
       const styledContext = styleContext(context, style);
       drawPath(styledContext, path);
     });
-  }, [style, drawingMode]);
+  }, [style, socket, user]);
+
+  useEffect(() => {
+    socket.on("next-turn", ({ playerDrawing }: NextTurnResponse) => {
+      setIsDrawingMode(playerDrawing.id === user.id);
+    });
+  }, []);
 
   return canvasRef;
 };

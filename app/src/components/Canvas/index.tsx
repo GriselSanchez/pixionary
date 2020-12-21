@@ -14,18 +14,11 @@ const StyledCanvas = styled.canvas`
 `;
 
 const Canvas: React.FC<Props> = ({ width = 500, height = 500 }) => {
-  const [drawingMode, setDrawingMode] = useState(true);
   const { style, onChange } = useStyles();
-  const canvasRef = useCanvas(style, drawingMode);
+  const canvasRef = useCanvas(style);
 
   return (
     <div>
-      <input
-        type="radio"
-        onClick={() => setDrawingMode((prev) => !prev)}
-        checked={drawingMode}
-        readOnly
-      />
       <input
         type="color"
         onChange={onChange(TypeEnum.Color)}
