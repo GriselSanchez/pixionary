@@ -1,15 +1,14 @@
 import React, { useEffect, useState, useContext } from "react";
 import { SocketContext, UserContext } from "../../contexts";
 
-import { ChatResponse, NextTurnResponse } from "../../types";
+import { ChatResponse } from "../../types";
 
-const Chat = () => {
+const Chat: React.FC<{ disabled?: boolean }> = ({ disabled = false }) => {
   const socket = useContext(SocketContext);
   const user = useContext(UserContext);
 
   const [chats, setChats] = useState<ChatResponse[]>([]);
   const [currentInput, setCurrentInput] = useState("");
-  const [isTurn, setIsTurn] = useState(false);
 
   const onInputChange = (event: React.KeyboardEvent<HTMLInputElement>) => {
     const { key, currentTarget } = event;
@@ -19,17 +18,9 @@ const Chat = () => {
     }
   };
 
-  const setNextTurn = () => {
-    socket.emit("next-turn");
-  };
-
   useEffect(() => {
     socket.on("chat", (chat: ChatResponse) => {
       setChats((prev) => [...prev, chat]);
-    });
-
-    socket.on("next-turn", ({ playerDrawing }: NextTurnResponse) => {
-      setIsTurn(playerDrawing.id === user.id);
     });
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -37,7 +28,6 @@ const Chat = () => {
 
   return (
     <div>
-      {isTurn && <p>Tu turno</p>}
       {chats.map((chat, index) => (
         <p
           key={index}
@@ -51,8 +41,8 @@ const Chat = () => {
         onKeyDown={onInputChange}
         onChange={(event) => setCurrentInput(event.currentTarget.value)}
         value={currentInput}
+        disabled={disabled}
       />
-      <button onClick={setNextTurn}>Next turn</button>
     </div>
   );
 };

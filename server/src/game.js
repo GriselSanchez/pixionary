@@ -1,7 +1,14 @@
+var fs = require("fs");
+
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min)) + min;
+}
+
 module.exports = class Game {
   players = [];
   turn = 0;
   playerDrawing;
+  currentWord;
 
   addPlayer(_player) {
     this.players.push(_player);
@@ -17,6 +24,10 @@ module.exports = class Game {
 
   getPlayerDrawing() {
     return this.playerDrawing;
+  }
+
+  getCurrentWord() {
+    return this.currentWord;
   }
 
   setPlayerDrawing() {
@@ -36,6 +47,18 @@ module.exports = class Game {
       this.setPlayerDrawing();
     }
     this.turn++;
+
+    this.currentWord = this.getRandomWord();
     return this.playerDrawing;
+  }
+
+  getRandomWord(category = "medium") {
+    const data = fs.readFileSync("src/words.json");
+    const words = JSON.parse(data);
+
+    const wordsFromCategory = words[category];
+    const randomWordIndex = getRandomInt(0, wordsFromCategory.length - 1);
+
+    return wordsFromCategory[randomWordIndex];
   }
 };

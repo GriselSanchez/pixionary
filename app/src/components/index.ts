@@ -1,2 +1,2 @@
 export { Canvas } from "./Canvas";
-export { Chat } from "./Chat";
+export { Panel } from "./Panel";

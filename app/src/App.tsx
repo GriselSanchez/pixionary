@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
-import { Canvas, Chat } from "./components";
+import { Canvas, Panel } from "./components";
 import { socket, SocketContext, UserContext } from "./contexts";
 
 function App() {
@@ -41,8 +41,8 @@ function App() {
               )}
             ></Route>
             <Route path="/game">
+              <Panel />
               <Canvas />
-              <Chat />
             </Route>
           </Switch>
         </Router>
