@@ -13,7 +13,10 @@ const Chat: React.FC<{ disabled?: boolean }> = ({ disabled = false }) => {
   const onInputChange = (event: React.KeyboardEvent<HTMLInputElement>) => {
     const { key, currentTarget } = event;
     if (key === "Enter") {
-      socket.emit("chat", { text: currentTarget.value, name: user.name });
+      socket.emit("chat", {
+        text: currentTarget.value.toLowerCase(),
+        name: user.name,
+      });
       setCurrentInput("");
     }
   };
