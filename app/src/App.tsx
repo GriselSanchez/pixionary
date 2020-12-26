@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
-import { Canvas, Panel, PixelArtCanvas } from "./components";
+import { Panel, PixelArtCanvas } from "./components";
 import { socket, SocketContext, UserContext } from "./contexts";
 
 function App() {
@@ -48,11 +48,9 @@ function App() {
                   marginTop: "100px",
                 }}
               >
-                <Canvas />
                 <Panel />
               </div>
             </Route>
-            <Route path="/pixel" component={PixelArtCanvas} />
           </Switch>
         </Router>
       </SocketContext.Provider>

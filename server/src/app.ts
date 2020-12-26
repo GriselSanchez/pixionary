@@ -47,6 +47,10 @@ io.sockets.on('connection', (socket: Socket) => {
     socket.broadcast.emit('draw', data)
   })
 
+  socket.on('draw-pixel', data => {
+    socket.broadcast.emit('draw-pixel', data)
+  })
+
   socket.on('chat', ({ text, name }) => {
     const hasWon = game.playerWon(text)
 

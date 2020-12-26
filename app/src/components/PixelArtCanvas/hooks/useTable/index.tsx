@@ -1,5 +1,6 @@
-import React, { ReactElement, useState } from "react";
+import React, { ReactElement, useContext, useEffect, useState } from "react";
 import styled from "styled-components";
+import { SocketContext } from "../../../../contexts";
 
 import { Point } from "../../../../types";
 
@@ -10,32 +11,31 @@ const StyledTd = styled.td<{ isColored?: boolean }>`
 type Event = React.MouseEvent<HTMLTableDataCellElement, MouseEvent>;
 
 export const useTable = (height: number, width: number) => {
+  const socket = useContext(SocketContext);
+
   const [isClicked, setIsClicked] = useState(false);
+  const [points, setPoints] = useState<Point[]>([]);
+
   const table: ReactElement[] = [];
 
-  // TODO: send from server
-  const points = [
-    { x: 5, y: 6 },
-    { x: 8, y: 2 },
-  ];
+  useEffect(() => {
+    socket.on("draw-pixel", (point: Point) => {
+      setPoints((prev) => [...prev, point]);
+    });
+  }, []);
 
-  const draw = (event: Event) => {
+  const draw = (event: Event, point: Point) => {
     event.currentTarget.style.backgroundColor = "black";
+    socket.emit("draw-pixel", point);
   };
 
   const onMouseDown = (point: Point) => (event: Event) => {
     setIsClicked(true);
-    draw(event);
-    // TODO: send point to server
-    console.log(point);
+    draw(event, point);
   };
 
   const onMouseOver = (point: Point) => (event: Event) => {
-    if (isClicked) {
-      draw(event);
-      // TODO: send point to server
-      console.log(point);
-    }
+    if (isClicked) draw(event, point);
   };
 
   const onMouseUp = (_: Event) => {
