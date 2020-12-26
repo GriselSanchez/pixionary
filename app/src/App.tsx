@@ -2,8 +2,8 @@ import "nes.css/css/nes.min.css";
 import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
-import { Home, Panel } from "./components";
-import { socket, SocketContext, UserContext } from "./contexts";
+import { Home, Panel } from "src/components";
+import { socket, SocketContext, UserContext } from "src/contexts";
 
 const App = () => {
   const [userId, setUserId] = useState("");
@@ -34,4 +34,4 @@ const App = () => {
   );
 };
 
-export default App;
+export { App };

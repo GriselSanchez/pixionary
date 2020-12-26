@@ -1,10 +1,9 @@
-import { useEffect, useState, useContext, ReactElement } from "react";
-import { SocketContext, UserContext } from "../../contexts";
+import React, { useEffect, useState, useContext, ReactElement } from "react";
 
-import { NextTurnResponse, CanvasTypeEnum } from "../../types";
-import { Canvas } from "../Canvas";
-import { Chat } from "../Chat";
-import { PixelArtCanvas } from "../PixelArtCanvas";
+import { NextTurnResponse, CanvasTypeEnum } from "src/types";
+import { SocketContext, UserContext } from "src/contexts";
+import { Canvas, Chat, PixelArtCanvas } from "src/components";
+
 import { CanvasTypeSelect } from "./components";
 
 const canvasMap: Record<CanvasTypeEnum, ReactElement> = {
@@ -65,7 +64,11 @@ const Panel = () => {
 
         <div>
           <Chat disabled={isTurn} />
-          <button onClick={setNextTurn}>
+          <button
+            type="button"
+            className="nes-btn is-primary"
+            onClick={setNextTurn}
+          >
             {currentPlayer ? "Next turn" : "Start"}
           </button>
         </div>

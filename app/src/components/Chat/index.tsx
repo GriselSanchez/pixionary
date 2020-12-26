@@ -1,9 +1,13 @@
 import React, { useEffect, useState, useContext } from "react";
-import { SocketContext, UserContext } from "../../contexts";
 
-import { ChatResponse } from "../../types";
+import { SocketContext, UserContext } from "src/contexts";
+import { ChatResponse } from "src/types";
 
-const Chat: React.FC<{ disabled?: boolean }> = ({ disabled = false }) => {
+interface Props {
+  disabled?: boolean;
+}
+
+const Chat: React.FC<Props> = ({ disabled = false }) => {
   const socket = useContext(SocketContext);
   const user = useContext(UserContext);
 
@@ -40,6 +44,8 @@ const Chat: React.FC<{ disabled?: boolean }> = ({ disabled = false }) => {
         >{`${chat.name}: ${chat.text}`}</p>
       ))}
       <input
+        type="text"
+        className="nes-input"
         placeholder="Chat"
         onKeyDown={onInputChange}
         onChange={(event) => setCurrentInput(event.currentTarget.value)}

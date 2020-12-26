@@ -1,6 +1,6 @@
-import { Style, Path } from "../types";
+import { Point } from "src/types";
 
-import { Point } from "../../../types";
+import { Style, Path } from "../types";
 
 export const CanvasUtils = {
   getNewPosition: (canvas: HTMLCanvasElement, event: MouseEvent): Point => {

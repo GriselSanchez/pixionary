@@ -1,8 +1,8 @@
 import React, { ReactElement, useContext, useEffect, useState } from "react";
 import styled from "styled-components";
-import { SocketContext } from "../../../../contexts";
 
-import { Point } from "../../../../types";
+import { SocketContext } from "src/contexts";
+import { Point } from "src/types";
 
 const StyledTd = styled.td<{ isColored?: boolean }>`
   background-color: ${({ isColored }) => (isColored ? "black" : "")};
@@ -38,7 +38,7 @@ export const useTable = (height: number, width: number) => {
     if (isClicked) draw(event, point);
   };
 
-  const onMouseUp = (_: Event) => {
+  const onMouseUp = () => {
     setIsClicked(false);
   };
 

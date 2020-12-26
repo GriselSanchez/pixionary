@@ -1,9 +1,10 @@
 import { useContext, useEffect, useRef, useState } from "react";
 
+import { SocketContext, UserContext } from "src/contexts";
+import { NextTurnResponse, Point } from "src/types";
+
 import { Style, SocketResponse } from "../../types";
 import { CanvasUtils } from "../../utils";
-import { SocketContext, UserContext } from "../../../../contexts";
-import { NextTurnResponse, Point } from "../../../../types";
 
 const { styleContext, getNewPosition, drawPath } = CanvasUtils;
 

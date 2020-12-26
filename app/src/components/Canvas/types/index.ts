@@ -1,4 +1,4 @@
-import { Point } from "../../../types";
+import { Point } from "src/types";
 
 export interface Path {
   start: Point;
