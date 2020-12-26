@@ -13,3 +13,8 @@ export interface ChatResponse {
   text: string;
   name: string;
 }
+
+export interface Point {
+  x: number;
+  y: number;
+}
