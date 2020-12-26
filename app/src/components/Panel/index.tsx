@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext, ReactElement } from "react";
+import React, { useEffect, useState, useContext } from "react";
 
 import { NextTurnResponse, CanvasTypeEnum, Style } from "src/types";
 import { SocketContext, UserContext } from "src/contexts";
@@ -24,11 +24,6 @@ const Panel = () => {
   const [canvasType, setCanvasType] = useState<CanvasTypeEnum>(
     CanvasTypeEnum.Normal
   );
-
-  const canvasMap: Record<CanvasTypeEnum, ReactElement> = {
-    [CanvasTypeEnum.Normal]: <Canvas style={style} />,
-    [CanvasTypeEnum.PixelArt]: <PixelArtCanvas />,
-  };
 
   const onNextTurn = () => {
     socket.emit("next-turn");
@@ -56,8 +51,18 @@ const Panel = () => {
 
           <CanvasTypeSelect onChange={setCanvasType} />
           <CanvasContainer>
+            <progress
+              className="nes-progress is-success"
+              value="50"
+              max="100"
+              style={{ width: "99%" }}
+            />
+            {canvasType === CanvasTypeEnum.Normal ? (
+              <Canvas style={style} />
+            ) : (
+              <PixelArtCanvas />
+            )}
             <StylingTools onStyleChange={setStyle} />
-            {canvasMap[canvasType]}
           </CanvasContainer>
         </div>
 
@@ -65,7 +70,7 @@ const Panel = () => {
           <Chat disabled={isTurn} />
           <button
             type="button"
-            className="nes-btn is-primary"
+            className="nes-btn is-success"
             onClick={onNextTurn}
           >
             {currentPlayer ? "Next turn" : "Start"}

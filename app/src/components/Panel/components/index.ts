@@ -5,10 +5,6 @@ const PanelContainer = styled.div`
   display: grid;
   grid-auto-flow: column;
   grid-gap: 5%;
-
-  .nes-container.is-rounded {
-    padding: 35px;
-  }
 `;
 
 const ChatContainer = styled.div`
@@ -19,13 +15,12 @@ const ChatContainer = styled.div`
 
 const CanvasContainer = styled.div`
   display: flex;
-  flex-direction: column-reverse;
+  flex-direction: column;
 `;
 
 const GameContainer = styled.div`
   display: flex;
   place-content: center;
-  margin-top: 3%;
 `;
 
 export { PanelContainer, ChatContainer, CanvasContainer, GameContainer };

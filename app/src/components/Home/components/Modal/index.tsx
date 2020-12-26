@@ -23,7 +23,7 @@ const StyledDialog = styled.dialog`
     font-size: 1.5vh;
   }
   .nes-input {
-    font-size: 2em;
+    font-size: 1.5em;
   }
 `;
 

@@ -12,7 +12,7 @@ const Container = styled.div`
   left: 35%;
   background-color: white;
   .nes-input {
-    font-size: 2em;
+    font-size: 1.5em;
   }
 `;
 

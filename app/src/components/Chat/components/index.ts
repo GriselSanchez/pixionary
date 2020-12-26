@@ -2,7 +2,12 @@ import styled from "styled-components";
 
 const MessagesContainer = styled.div`
   overflow-y: auto;
-  max-height: 450px;
+  max-height: 500px;
+`;
+
+const MessageContainer = styled.div`
+  width: 300px;
+  overflow-wrap: break-word;
 `;
 
 const InputContainer = styled.div`
@@ -11,4 +16,4 @@ const InputContainer = styled.div`
   margin: 10px 0;
 `;
 
-export { MessagesContainer, InputContainer };
+export { MessagesContainer, InputContainer, MessageContainer };

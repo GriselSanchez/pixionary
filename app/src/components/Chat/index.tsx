@@ -3,7 +3,11 @@ import React, { useEffect, useState, useContext } from "react";
 import { SocketContext, UserContext } from "src/contexts";
 import { ChatResponse } from "src/types";
 
-import { MessagesContainer, InputContainer } from "./components";
+import {
+  MessagesContainer,
+  InputContainer,
+  MessageContainer,
+} from "./components";
 
 interface Props {
   disabled?: boolean;
@@ -39,14 +43,22 @@ const Chat: React.FC<Props> = ({ disabled = false }) => {
   return (
     <div>
       <MessagesContainer>
-        {chats.map((chat, index) => (
-          <p
-            key={index}
-            style={{
-              color: chat.name === user.id ? "red" : "black",
-            }}
-          >{`${chat.name}: ${chat.text}`}</p>
-        ))}
+        {chats.map((chat, index) => {
+          const orientation = chat.name === user.name ? `right` : `left`;
+
+          return (
+            <section
+              className={`message -${orientation}`}
+              style={{ textAlign: orientation }}
+              key={index}
+            >
+              <MessageContainer className={`nes-balloon from-${orientation}`}>
+                <p>{chat.name}</p>
+                <p>{chat.text}</p>
+              </MessageContainer>
+            </section>
+          );
+        })}
       </MessagesContainer>
 
       <InputContainer>
