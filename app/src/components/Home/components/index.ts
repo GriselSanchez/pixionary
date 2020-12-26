@@ -4,16 +4,31 @@ export { Modal } from "./Modal";
 
 const Container = styled.div`
   display: grid;
-  grid-gap: 5%;
+  grid-gap: 15%;
   position: absolute;
   width: 30%;
-  top: 45%;
+  height: 23%;
+  top: 40%;
   left: 35%;
+  background-color: white;
+  .nes-input {
+    font-size: 2em;
+  }
 `;
 
 const ButtonsContainer = styled.div`
   display: grid;
+  grid-gap: 5%;
   grid-auto-flow: column;
+  font-size: 1.5vh;
 `;
 
-export { Container, ButtonsContainer };
+const StyledTitle = styled.h1`
+  font-size: 5em;
+  color: #f7d51d;
+  text-align-last: center;
+  margin-top: 10%;
+  text-shadow: 4px 4px 0px #e59400;
+`;
+
+export { Container, ButtonsContainer, StyledTitle };

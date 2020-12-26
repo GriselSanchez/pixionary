@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 
-import { Container, ButtonsContainer, Modal } from "./components";
+import { Container, ButtonsContainer, Modal, StyledTitle } from "./components";
 
 interface Props {
   onPlay: (userName: string) => void;
@@ -19,18 +19,20 @@ const Home: React.FC<Props> = ({ onPlay }) => {
   };
 
   return (
-    <>
-      <Container>
+    <div>
+      <StyledTitle>Pixionary</StyledTitle>
+      <Container className="nes-container is-rounded">
         <input
           className="nes-input"
           placeholder="Enter your name"
           onChange={(event) => setUserName(event.target.value)}
           value={userName}
+          spellCheck="false"
         />
         <ButtonsContainer>
-          <button className="nes-btn is-primary">Host Game</button>
+          <button className="nes-btn is-warning">Host Game</button>
           <button
-            className="nes-btn is-primary"
+            className="nes-btn is-warning"
             onClick={() => setIsModalOpen(true)}
           >
             Join Game
@@ -42,7 +44,7 @@ const Home: React.FC<Props> = ({ onPlay }) => {
         onOk={playHandler}
         onCancel={() => setIsModalOpen(false)}
       />
-    </>
+    </div>
   );
 };
 

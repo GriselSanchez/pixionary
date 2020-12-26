@@ -9,11 +9,11 @@ interface Props {
 
 const StyledDialog = styled.dialog`
   display: ${({ open }) => (open ? `grid` : `none`)};
-  grid-gap: 5%;
+  grid-gap: 10%;
   position: absolute;
   top: 40%;
   width: 30%;
-  height: 25%;
+  height: 23%;
   border-image-repeat: stretch !important;
 
   .button-container {
@@ -21,6 +21,9 @@ const StyledDialog = styled.dialog`
     grid-auto-flow: column;
     grid-gap: 5%;
     font-size: 1.5vh;
+  }
+  .nes-input {
+    font-size: 2em;
   }
 `;
 
@@ -31,12 +34,16 @@ const Modal: React.FC<Props> = ({ isOpen, onOk, onCancel }) => {
       id="dialog-rounded"
       open={isOpen}
     >
-      <input className="nes-input" placeholder="Enter room code" />
+      <input
+        className="nes-input"
+        placeholder="Enter room code"
+        spellCheck="false"
+      />
       <div className="button-container">
-        <button className="nes-btn is-primary" onClick={onOk}>
+        <button className="nes-btn is-warning" onClick={onOk}>
           Join Game
         </button>
-        <button className="nes-btn" onClick={onCancel}>
+        <button className="nes-btn is-error" onClick={onCancel}>
           Cancel
         </button>
       </div>
