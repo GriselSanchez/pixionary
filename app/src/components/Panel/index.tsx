@@ -41,26 +41,34 @@ const Panel = () => {
     <div
       style={{
         display: "flex",
-        flexDirection: "column",
-        placeContent: "flex-end",
-        margin: "50px 20px",
+        placeContent: "center",
+        marginTop: "100px",
       }}
     >
-      <CanvasTypeSelect onChange={setCanvasType} />
-      {canvasMap[canvasType]}
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          placeContent: "flex-end",
+          margin: "50px 20px",
+        }}
+      >
+        <CanvasTypeSelect onChange={setCanvasType} />
+        {canvasMap[canvasType]}
 
-      {isTurn && <p>{`Word to draw: ${currentWord}`}</p>}
-      {isTurn ? (
-        <p>Your turn</p>
-      ) : (
-        <p>{currentPlayer && `Turn of ${currentPlayer}`}</p>
-      )}
+        {isTurn && <p>{`Word to draw: ${currentWord}`}</p>}
+        {isTurn ? (
+          <p>Your turn</p>
+        ) : (
+          <p>{currentPlayer && `Turn of ${currentPlayer}`}</p>
+        )}
 
-      <div>
-        <Chat disabled={isTurn} />
-        <button onClick={setNextTurn}>
-          {currentPlayer ? "Next turn" : "Start"}
-        </button>
+        <div>
+          <Chat disabled={isTurn} />
+          <button onClick={setNextTurn}>
+            {currentPlayer ? "Next turn" : "Start"}
+          </button>
+        </div>
       </div>
     </div>
   );

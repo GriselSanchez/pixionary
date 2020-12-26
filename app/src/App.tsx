@@ -1,12 +1,18 @@
+import "nes.css/css/nes.min.css";
 import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
-import { Panel, PixelArtCanvas } from "./components";
+import { Home, Panel } from "./components";
 import { socket, SocketContext, UserContext } from "./contexts";
 
-function App() {
+const App = () => {
   const [userId, setUserId] = useState("");
   const [userName, setUserName] = useState("");
+
+  const onPlay = (userName: string) => {
+    setUserName(userName);
+    socket.emit("join", userName);
+  };
 
   useEffect(() => {
     socket.on("connect", () => {
@@ -19,43 +25,13 @@ function App() {
       <SocketContext.Provider value={socket}>
         <Router>
           <Switch>
-            <Route
-              exact
-              path="/"
-              render={({ history }) => (
-                <div>
-                  <input
-                    placeholder="Enter your name"
-                    onChange={(event) => setUserName(event.target.value)}
-                    value={userName}
-                  />
-                  <button
-                    onClick={() => {
-                      socket.emit("join", userName);
-                      history.push("/game");
-                    }}
-                  >
-                    Play
-                  </button>
-                </div>
-              )}
-            ></Route>
-            <Route path="/game">
-              <div
-                style={{
-                  display: "flex",
-                  placeContent: "center",
-                  marginTop: "100px",
-                }}
-              >
-                <Panel />
-              </div>
-            </Route>
+            <Route exact path="/" component={() => <Home onPlay={onPlay} />} />
+            <Route path="/game" component={Panel} />
           </Switch>
         </Router>
       </SocketContext.Provider>
     </UserContext.Provider>
   );
-}
+};
 
 export default App;

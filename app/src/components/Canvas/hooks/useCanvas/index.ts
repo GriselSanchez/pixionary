@@ -27,7 +27,7 @@ export const useCanvas = (style: Style) => {
       const styledContext = styleContext(context, style);
       const newPos = getNewPosition(canvas, event);
       const path = { start: lastPos, end: newPos };
-
+      console.log(newPos);
       drawPath(styledContext, path);
       socket.emit("draw", { path, style });
 
