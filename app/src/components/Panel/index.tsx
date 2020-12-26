@@ -1,15 +1,11 @@
 import { useEffect, useState, useContext, ReactElement } from "react";
 import { SocketContext, UserContext } from "../../contexts";
 
-import { NextTurnResponse } from "../../types";
+import { NextTurnResponse, CanvasTypeEnum } from "../../types";
 import { Canvas } from "../Canvas";
 import { Chat } from "../Chat";
 import { PixelArtCanvas } from "../PixelArtCanvas";
-
-enum CanvasTypeEnum {
-  Normal = "normal",
-  PixelArt = "pixel-art",
-}
+import { CanvasTypeSelect } from "./components";
 
 const canvasMap: Record<CanvasTypeEnum, ReactElement> = {
   [CanvasTypeEnum.Normal]: <Canvas />,
@@ -50,19 +46,9 @@ const Panel = () => {
         margin: "50px 20px",
       }}
     >
-      <select
-        name="canvas-type"
-        onChange={(event) =>
-          setCanvasType(event.target.value as CanvasTypeEnum)
-        }
-      >
-        <option value={CanvasTypeEnum.Normal} selected>
-          Normal
-        </option>
-        <option value={CanvasTypeEnum.PixelArt}>Pixel Art</option>
-      </select>
-
+      <CanvasTypeSelect onChange={setCanvasType} />
       {canvasMap[canvasType]}
+
       {isTurn && <p>{`Word to draw: ${currentWord}`}</p>}
       {isTurn ? (
         <p>Your turn</p>

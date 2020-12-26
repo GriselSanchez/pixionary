@@ -18,3 +18,8 @@ export interface Point {
   x: number;
   y: number;
 }
+
+export enum CanvasTypeEnum {
+  Normal = "normal",
+  PixelArt = "pixel-art",
+}
