@@ -4,12 +4,6 @@ import styled from "styled-components";
 import { useTable } from "./hooks";
 
 const StyledTable = styled.div`
-  table,
-  tr,
-  td {
-    border: 1px solid #777;
-  }
-
   table {
     border-collapse: collapse;
     margin: 0 auto;
@@ -34,7 +28,7 @@ const PixelArtCanvas = () => {
 
   return (
     <StyledTable>
-      <table>
+      <table className="nes-table is-bordered is-centered">
         <tbody>{table}</tbody>
       </table>
     </StyledTable>

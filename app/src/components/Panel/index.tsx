@@ -1,15 +1,17 @@
 import React, { useEffect, useState, useContext, ReactElement } from "react";
 
-import { NextTurnResponse, CanvasTypeEnum } from "src/types";
+import { NextTurnResponse, CanvasTypeEnum, Style } from "src/types";
 import { SocketContext, UserContext } from "src/contexts";
-import { Canvas, Chat, PixelArtCanvas } from "src/components";
+import { Canvas, Chat, PixelArtCanvas, StylingTools } from "src/components";
 
-import { CanvasTypeSelect } from "./components";
-
-const canvasMap: Record<CanvasTypeEnum, ReactElement> = {
-  [CanvasTypeEnum.Normal]: <Canvas />,
-  [CanvasTypeEnum.PixelArt]: <PixelArtCanvas />,
-};
+import {
+  CanvasTypeSelect,
+  PanelContainer,
+  ChatContainer,
+  TurnInfo,
+  CanvasContainer,
+  GameContainer,
+} from "./components";
 
 const Panel = () => {
   const socket = useContext(SocketContext);
@@ -18,11 +20,17 @@ const Panel = () => {
   const [isTurn, setIsTurn] = useState(false);
   const [currentPlayer, setCurrentPlayer] = useState("");
   const [currentWord, setCurrentWord] = useState("");
+  const [style, setStyle] = useState<Style>({ width: 5, color: "#000000" });
   const [canvasType, setCanvasType] = useState<CanvasTypeEnum>(
     CanvasTypeEnum.Normal
   );
 
-  const setNextTurn = () => {
+  const canvasMap: Record<CanvasTypeEnum, ReactElement> = {
+    [CanvasTypeEnum.Normal]: <Canvas style={style} />,
+    [CanvasTypeEnum.PixelArt]: <PixelArtCanvas />,
+  };
+
+  const onNextTurn = () => {
     socket.emit("next-turn");
   };
 
@@ -37,43 +45,34 @@ const Panel = () => {
   }, []);
 
   return (
-    <div
-      style={{
-        display: "flex",
-        placeContent: "center",
-        marginTop: "100px",
-      }}
-    >
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          placeContent: "flex-end",
-          margin: "50px 20px",
-        }}
-      >
-        <CanvasTypeSelect onChange={setCanvasType} />
-        {canvasMap[canvasType]}
-
-        {isTurn && <p>{`Word to draw: ${currentWord}`}</p>}
-        {isTurn ? (
-          <p>Your turn</p>
-        ) : (
-          <p>{currentPlayer && `Turn of ${currentPlayer}`}</p>
-        )}
-
+    <GameContainer>
+      <PanelContainer className="nes-container is-rounded">
         <div>
+          <TurnInfo
+            isTurn={isTurn}
+            currentPlayer={currentPlayer}
+            currentWord={currentWord}
+          />
+
+          <CanvasTypeSelect onChange={setCanvasType} />
+          <CanvasContainer>
+            <StylingTools onStyleChange={setStyle} />
+            {canvasMap[canvasType]}
+          </CanvasContainer>
+        </div>
+
+        <ChatContainer>
           <Chat disabled={isTurn} />
           <button
             type="button"
             className="nes-btn is-primary"
-            onClick={setNextTurn}
+            onClick={onNextTurn}
           >
             {currentPlayer ? "Next turn" : "Start"}
           </button>
-        </div>
-      </div>
-    </div>
+        </ChatContainer>
+      </PanelContainer>
+    </GameContainer>
   );
 };
 

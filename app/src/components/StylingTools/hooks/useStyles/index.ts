@@ -1,9 +1,11 @@
 import { useState } from "react";
 
+import { Style } from "src/types";
+
 import { TypeEnum } from "../../types";
 
 export const useStyles = () => {
-  const [width, setWidth] = useState("5");
+  const [width, setWidth] = useState("10");
   const [color, setColor] = useState("#000000");
 
   const stateMap = {
@@ -21,7 +23,7 @@ export const useStyles = () => {
     style: {
       width: parseInt(width),
       color,
-    },
+    } as Style,
     onChange,
   };
 };

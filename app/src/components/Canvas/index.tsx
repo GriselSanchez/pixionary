@@ -1,48 +1,25 @@
 import React from "react";
+import { Style } from "src/types";
 import styled from "styled-components";
 
-import { useCanvas, useStyles } from "./hooks";
-import { TypeEnum } from "./types";
+import { useCanvas } from "./hooks";
 
-interface Props {
-  width?: number;
-  height?: number;
-}
-
-const StyledCanvas = styled.canvas`
+const StyledCanvas = styled.canvas<{ isOn: boolean }>`
   border: 2px solid black;
+  pointer-events: ${({ isOn }) => (isOn ? "auto" : "none")};
+  cursor: ${({ isOn }) => (isOn ? "auto" : "not-allowed")};
+  width: 700px;
+  height: 600px;
 `;
 
-const Canvas: React.FC<Props> = ({ width = 500, height = 500 }) => {
-  const { style, onChange } = useStyles();
+interface Props {
+  style: Style;
+}
+
+const Canvas: React.FC<Props> = ({ style }) => {
   const { canvasRef, isDrawingMode } = useCanvas(style);
 
-  return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column-reverse",
-      }}
-    >
-      <input
-        type="color"
-        onChange={onChange(TypeEnum.Color)}
-        value={style.color}
-        style={{ width: "100%" }}
-      />
-      <input
-        type="range"
-        onChange={onChange(TypeEnum.Width)}
-        value={style.width}
-      />
-      <StyledCanvas
-        ref={canvasRef}
-        width={width}
-        height={height}
-        style={{ pointerEvents: isDrawingMode ? "auto" : "none" }}
-      />
-    </div>
-  );
+  return <StyledCanvas ref={canvasRef} isOn={isDrawingMode} />;
 };
 
 export { Canvas };

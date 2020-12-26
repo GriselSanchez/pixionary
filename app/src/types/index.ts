@@ -23,3 +23,8 @@ export enum CanvasTypeEnum {
   Normal = "normal",
   PixelArt = "pixel-art",
 }
+
+export interface Style {
+  color: string;
+  width: number;
+}

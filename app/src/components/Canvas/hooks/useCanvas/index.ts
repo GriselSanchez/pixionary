@@ -1,9 +1,9 @@
 import { useContext, useEffect, useRef, useState } from "react";
 
 import { SocketContext, UserContext } from "src/contexts";
-import { NextTurnResponse, Point } from "src/types";
+import { NextTurnResponse, Point, Style } from "src/types";
 
-import { Style, SocketResponse } from "../../types";
+import { SocketResponse } from "../../types";
 import { CanvasUtils } from "../../utils";
 
 const { styleContext, getNewPosition, drawPath } = CanvasUtils;
@@ -28,7 +28,7 @@ export const useCanvas = (style: Style) => {
       const styledContext = styleContext(context, style);
       const newPos = getNewPosition(canvas, event);
       const path = { start: lastPos, end: newPos };
-      console.log(newPos);
+
       drawPath(styledContext, path);
       socket.emit("draw", { path, style });
 
