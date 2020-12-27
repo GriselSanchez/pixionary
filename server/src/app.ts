@@ -24,6 +24,10 @@ server.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`)
 })
 
+app.get('/test', (req, res) => {
+  res.send(`TEST${process.env.WEB_ADDRESS}`)
+})
+
 const nextTurnHandler = () => {
   const { id, isDrawing, name } = game.nextTurn()
 
