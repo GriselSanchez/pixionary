@@ -12,9 +12,3 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
-
-@font-face {
-  font-family: "Press Start 2P";
-  src: local("PressStart2P"),
-    url(./assets/fonts/PressStart2P-Regular.ttf) format("truetype");
-}

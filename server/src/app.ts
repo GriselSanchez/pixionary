@@ -24,17 +24,32 @@ server.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`)
 })
 
-const nextTurnHandler = () => {
-  const { id, isDrawing, name } = game.nextTurn()
+const nextTurnHandler = (winner?: Player | undefined) => {
+  // TODO: set score acording to time
+  if (winner) winner.addScore(100)
+  const player = game.nextTurn()
 
-  io.sockets.emit('next-turn', {
-    playerDrawing: { id, isDrawing, name },
-    nextWord: game.currentWord,
-  })
+  if (player) {
+    const { id, isDrawing, name, score } = player
+    io.sockets.emit('next-turn', {
+      playerDrawing: { id, isDrawing, name, score },
+      nextWord: game.currentWord,
+      globalScores: game.scores,
+      time: game.turnTime,
+    })
+  }
+
+  game.startTimer(nextTurnHandler)
 }
 
 io.sockets.on('connection', (socket: Socket) => {
   console.log(`Player ${socket.id} connected`)
+
+  // TODO: add a create game where user chooses mode, time and category
+  /*   socket.on('play', () => {
+    io.sockets.emit('play', { turnTime: game.turnTime })
+    nextTurnHandler()
+  }) */
 
   socket.on('join', (name: string) => {
     const player = new Player(socket.id, name)
@@ -52,10 +67,11 @@ io.sockets.on('connection', (socket: Socket) => {
   })
 
   socket.on('chat', ({ text, name }) => {
-    const hasWon = game.playerWon(text)
+    const hasWon = game.isWinnerWord(text)
 
     if (hasWon) {
-      nextTurnHandler()
+      const winner = game.findPlayerByName(name)
+      nextTurnHandler(winner)
       io.sockets.emit('chat', { text: 'Player won', name })
     } else io.sockets.emit('chat', { text, name })
   })

@@ -2,11 +2,18 @@ export interface Player {
   id: string;
   name: string;
   isDrawing: boolean;
+  score: number;
+}
+
+export interface Score {
+  name: string;
+  score: string;
 }
 
 export interface NextTurnResponse {
   playerDrawing: Player;
   nextWord: string;
+  globalScores: Score[];
 }
 
 export interface ChatResponse {
