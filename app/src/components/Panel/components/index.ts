@@ -21,6 +21,7 @@ const CanvasContainer = styled.div`
 const GameContainer = styled.div`
   display: flex;
   place-content: center;
+  margin-top: 2%;
 `;
 
 export { PanelContainer, ChatContainer, CanvasContainer, GameContainer };

@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 const MessagesContainer = styled.div`
   overflow-y: auto;
-  max-height: 500px;
+  max-height: 600px;
 `;
 
 const MessageContainer = styled.div`

@@ -53,7 +53,7 @@ const Chat: React.FC<Props> = ({ disabled = false }) => {
               key={index}
             >
               <MessageContainer className={`nes-balloon from-${orientation}`}>
-                <p>{chat.name}</p>
+                {chat.name !== user.name && <p>{chat.name}</p>}
                 <p>{chat.text}</p>
               </MessageContainer>
             </section>

@@ -1,5 +1,5 @@
 {
-  "name": "typescript-express-template",
+  "name": "pixionary-game",
   "scripts": {
     "start": "node build/app.js",
     "dev": "nodemon src/app.ts",
