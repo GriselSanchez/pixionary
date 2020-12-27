@@ -12,7 +12,7 @@ const server = http.createServer(app)
 const game = new Game()
 const io = new Server(server, {
   cors: {
-    origin: 'http://localhost:3000',
+    origin: process.env.WEB_ADDRESS || 'http://localhost:3000',
     methods: ['GET', 'POST'],
   },
 })
