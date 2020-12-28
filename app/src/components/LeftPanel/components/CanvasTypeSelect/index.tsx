@@ -14,10 +14,10 @@ const CanvasTypeSelect: React.FC<Props> = ({ onChange }) => {
   return (
     <div className="nes-select">
       <select name="canvas-type" onChange={onChangeType} id="default_select">
-        <option value={CanvasTypeEnum.Normal} selected>
-          Normal
+        <option value={CanvasTypeEnum.Normal}>Normal</option>
+        <option value={CanvasTypeEnum.PixelArt} selected>
+          Pixel Art
         </option>
-        <option value={CanvasTypeEnum.PixelArt}>Pixel Art</option>
       </select>
     </div>
   );

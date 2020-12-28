@@ -12,7 +12,7 @@ class Game {
   private _timer?: NodeJS.Timeout
 
   constructor(turnTime?: number) {
-    this._turnTime = turnTime ?? 10000
+    this._turnTime = turnTime ?? 60000
   }
 
   startTimer(callback: () => void): void {

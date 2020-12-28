@@ -14,7 +14,7 @@ const LeftPanel: React.FC = () => {
 
   const [style, setStyle] = useState<Style>({ width: 5, color: "#000000" });
   const [canvasType, setCanvasType] = useState<CanvasTypeEnum>(
-    CanvasTypeEnum.Normal
+    CanvasTypeEnum.PixelArt
   );
 
   const progressBarColor = (timeLeft: number) => {
