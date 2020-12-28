@@ -9,13 +9,15 @@ class Game {
   private _currentWord = ''
   private _turn = 0
   private _turnTime: number
+  private _timer?: NodeJS.Timeout
 
   constructor(turnTime?: number) {
     this._turnTime = turnTime ?? 10000
   }
 
-  startTimer(callback: () => void): NodeJS.Timeout {
-    return setTimeout(callback, this._turnTime)
+  startTimer(callback: () => void): void {
+    if (this._timer) clearTimeout(this._timer)
+    this._timer = setTimeout(callback, this._turnTime)
   }
 
   get turnTime(): number {

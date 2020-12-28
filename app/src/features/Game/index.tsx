@@ -15,12 +15,14 @@ const Game = () => {
   const [currentWord, setCurrentWord] = useState<string>("");
   const [scores, setScores] = useState<Score[]>([]);
   const [time, setTime] = useState<number>(100);
+  let timeout: NodeJS.Timeout;
 
   const setTimerInSeconds = (timeLeft: number, timeTotal: number) => {
     if (timeLeft < 0) return;
 
+    clearTimeout(timeout);
     setTime(timeLeft * 10);
-    setTimeout(() => {
+    timeout = setTimeout(() => {
       setTimerInSeconds(timeLeft - 1, timeTotal);
     }, 1000);
   };
