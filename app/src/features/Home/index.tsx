@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 
-import { Container, ButtonsContainer, Modal, StyledTitle } from "./components";
+import {
+  Container,
+  ButtonsContainer,
+  RoomCode,
+  StyledTitle,
+} from "./components";
 
 interface Props {
   onPlay: (userName: string) => void;
@@ -39,7 +44,7 @@ const Home: React.FC<Props> = ({ onPlay }) => {
           </button>
         </ButtonsContainer>
       </Container>
-      <Modal
+      <RoomCode
         isOpen={isModalOpen}
         onOk={playHandler}
         onCancel={() => setIsModalOpen(false)}

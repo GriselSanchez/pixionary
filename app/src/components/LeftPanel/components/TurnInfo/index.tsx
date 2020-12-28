@@ -1,12 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 
-interface Props {
-  isTurn: boolean;
-  currentPlayer: string;
-  currentWord: string;
-}
+import { GameContext } from "src/contexts";
 
-const TurnInfo: React.FC<Props> = ({ isTurn, currentPlayer, currentWord }) => {
+const TurnInfo: React.FC = () => {
+  const { isTurn, currentPlayer, currentWord } = useContext(GameContext);
+
   return (
     <div>
       {isTurn ? (

@@ -27,7 +27,7 @@ const StyledDialog = styled.dialog`
   }
 `;
 
-const Modal: React.FC<Props> = ({ isOpen, onOk, onCancel }) => {
+const RoomCode: React.FC<Props> = ({ isOpen, onOk, onCancel }) => {
   return (
     <StyledDialog
       className="nes-dialog is-rounded"
@@ -40,15 +40,15 @@ const Modal: React.FC<Props> = ({ isOpen, onOk, onCancel }) => {
         spellCheck="false"
       />
       <div className="button-container">
-        <button className="nes-btn is-warning" onClick={onOk}>
-          Join Game
-        </button>
         <button className="nes-btn is-error" onClick={onCancel}>
           Cancel
+        </button>
+        <button className="nes-btn is-warning" onClick={onOk}>
+          Join Game
         </button>
       </div>
     </StyledDialog>
   );
 };
 
-export { Modal };
+export { RoomCode };

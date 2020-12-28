@@ -1,3 +1,11 @@
+export interface Game {
+  isTurn: boolean;
+  currentPlayer: string;
+  currentWord: string;
+  scores: Score[];
+  time: number;
+}
+
 export interface Player {
   id: string;
   name: string;

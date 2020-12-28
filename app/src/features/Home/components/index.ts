@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export { Modal } from "./Modal";
+export { RoomCode } from "./RoomCode";
 
 const Container = styled.div`
   display: grid;
