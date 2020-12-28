@@ -3,7 +3,7 @@ import React, { useContext } from "react";
 import { Chat } from "src/components";
 import { SocketContext, GameContext } from "src/contexts";
 
-import { ChatContainer, Container } from "./components";
+import { ChatContainer, Container, ScoreContainer } from "./components";
 
 const RightPanel: React.FC = () => {
   const { isTurn, currentPlayer, scores } = useContext(GameContext);
@@ -27,13 +27,14 @@ const RightPanel: React.FC = () => {
         </button>
       </ChatContainer>
 
-      <div>
+      <ScoreContainer className="nes-container with-title ">
+        <p className="title">Scoreboard</p>
         {scores.map((score) => (
           <p key={score.name}>
-            {score.name}:{score.score}
+            {score.name}: {score.score}
           </p>
         ))}
-      </div>
+      </ScoreContainer>
     </Container>
   );
 };
